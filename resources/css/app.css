@@ -1,3 +1,7 @@
+@import url("@fortawesome/fontawesome-free/css/fontawesome.css");
+@import url("@fortawesome/fontawesome-free/css/brands.css");
+@import url("@fortawesome/fontawesome-free/css/solid.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
