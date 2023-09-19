@@ -18,8 +18,8 @@ return new class extends Migration
             $table->double('sold_price', 14, 2);
             $table->dateTime('sold_at');
             $table->foreignId('product_id')->constrained('products');
-            $table->foreignId('sale_id')->constrained('sales');
-            $table->foreignId('deal_id')->constrained('product_deals');
+            $table->foreignId('sale_id')->nullable()->constrained('sales');
+            $table->foreignId('deal_id')->nullable()->constrained('product_deals');
             $table->timestamps();
             $table->softDeletes();
         });
