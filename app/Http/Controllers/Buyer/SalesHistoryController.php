@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Commerce;
+namespace App\Http\Controllers\Buyer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class SalesHistoryController extends Controller
 {
     //
 }

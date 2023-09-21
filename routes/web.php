@@ -26,7 +26,12 @@ Route::get('/test', function () {
     ]);
 });
 
-Route::get('/', LandingController::class);
+Route::get('/', LandingController::class)->name('home');
+Route::get('/products', LandingController::class);
+Route::get('/products/{product}', LandingController::class);
+
+Route::get('/services', LandingController::class);
+Route::get('/services/{service}', LandingController::class);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -36,6 +41,44 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::prefix('/shopping-history')->group(function () {
+
+    });
+
+    Route::prefix('/subscriptions')->group(function () {
+
+    });
+
+    Route::prefix('/transactions')->group(function () {
+
+    });
+
+    Route::prefix('/cart')->group(function () {
+
+    });
+
+    Route::middleware('verified', 'available-seller')->group(function () {
+        Route::prefix('/dashboard')->group(function () {
+
+        });
+        Route::prefix('/products')->group(function () {
+            Route::prefix('/deals')->group(function () {
+
+            });
+            Route::prefix('/stock')->group(function () {
+
+            });
+        });
+        Route::prefix('/services')->group(function () {
+            Route::prefix('/plans')->group(function () {
+
+            });
+            Route::prefix('/subscribtions')->group(function () {
+
+            });
+        });
+    });
 });
 
 require __DIR__.'/auth.php';

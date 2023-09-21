@@ -16,7 +16,8 @@ class Category extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name'
+        'name',
+        'type'
     ];
 
     protected $hidden = [
@@ -24,23 +25,13 @@ class Category extends Model
     ];
 
     /**
-     * Get the user that owns the Category
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
-    /**
-     * Get all of the categories for the Category
+     * Get all of the subcategories for the Category
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function categories(): HasMany
+    public function subcategories(): HasMany
     {
-        return $this->hasMany(Category::class, 'category_id');
+        return $this->hasMany(Subcategory::class, 'category_id');
     }
 
     /**
