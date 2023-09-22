@@ -12,6 +12,12 @@ class ProductFeature extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'name',
+        'value',
+        'show',
+    ];
+
     /**
      * Get the product that owns the ProductFeature
      *

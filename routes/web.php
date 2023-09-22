@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Commerce\LandingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Seller\ProductController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -58,11 +59,18 @@ Route::middleware('auth')->group(function () {
 
     });
 
-    Route::middleware('verified', 'available-seller')->group(function () {
+    Route::prefix('sell')->as('sell.')->middleware('verified', 'enable-seller')->group(function () {
         Route::prefix('/dashboard')->group(function () {
 
         });
-        Route::prefix('/products')->group(function () {
+        Route::prefix('/product')->as('product.')->group(function () {
+            Route::get('/', [ProductController::class, 'index'])->name('index');
+            Route::get('/create', [ProductController::class, 'create'])->name('create');
+            Route::post('/', [ProductController::class, 'store'])->name('store');
+            Route::get('/edit/{}', [ProductController::class, 'edit'])->name('edit');
+            Route::patch('/', [ProductController::class, 'update'])->name('update');
+            Route::delete('/', [ProductController::class, 'delete'])->name('delete');
+
             Route::prefix('/deals')->group(function () {
 
             });

@@ -12,6 +12,10 @@ class ProductOptionValue extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'value',
+    ];
+
     /**
      * Get the option that owns the ProductOptionValue
      *
