@@ -16,9 +16,16 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends Controller
 {
-    public function index() : \Inertia\Response
+    public function index(Request $request) : \Inertia\Response
     {
-        return Inertia::render('Seller/Products/Index');
+        $products = QueryBuilder::for(Product::class)
+            ->with(['category', 'subcategory'])
+            ->paginate()
+            ->appends($request->query());
+            // dd($products);
+        return Inertia::render('Seller/Products/Index', [
+            'products' => $products
+        ]);
     }
 
     public function get(Request $request) {
