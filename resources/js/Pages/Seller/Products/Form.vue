@@ -22,6 +22,7 @@ const form = useForm({
     description: null,
     summary: null,
     limit: null,
+    pictures: []
 });
 
 watch(categoryId, (data, prev) => {
@@ -40,6 +41,10 @@ const submit = () => {
         onSuccess: () => form.reset(),
     });
 };
+
+const handlePictures = (event) => {
+    form.pictures = event.target.files
+}
 </script>
 
 <style scoped>
@@ -66,14 +71,14 @@ const submit = () => {
     <AdminLayout>
         <div class="relative overflow-x-auto sm:rounded-lg p-12 mx-12 shadow-lg">
             <h1 class="text-gray-900 dark:text-gray-100 text-3xl mb-7 font-semibold text-center">What are you going to sell ?</h1>
-            <form @submit.prevent="submit">
+            <form @submit.prevent="submit" name="formSellProduct">
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
                         <v-select v-model="categoryId" :options="categories" label="name" :reduce="category => category.id" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"></v-select>
                     </div>
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subcategory</label>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subcategory</label>
                         <v-select v-model="form.subcategory_id" :options="subcategories" label="name" :reduce="subcategory => subcategory.id" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"></v-select>
                     </div>
                 </div>
@@ -129,8 +134,17 @@ const submit = () => {
                         <p v-if="form.errors.limit" class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oh, snapp!</span> {{ form.errors.limit }}</p>
                     </div>
                 </div>
+                <div class="mb-6">
+                    <label for="pictures" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pictures</label>
+                    <input type="file" multiple accept="image/png, image/jpeg, image/jpg, image/webp" @change.prevent="handlePictures" id="pictures" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+                    <p v-if="form.errors.pictures" class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oh, snapp!</span> {{ form.errors.pictures }}</p>
+                </div>
 
                 <button type="submit" :disabled="form.processing" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                <div v-if="form.progress" class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                    <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" :style="`width: ${form.progress.percentage}%`"> {{form.progress.percentage}}%</div>
+                </div>
+
             </form>
         </div>
     </AdminLayout>

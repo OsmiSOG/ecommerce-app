@@ -36,9 +36,9 @@ Route::get('/products/{product}', LandingController::class);
 Route::get('/services', LandingController::class);
 Route::get('/services/{service}', LandingController::class);
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/welcome', function () {
+    return Inertia::render('Welcome');
+})->middleware(['auth'])->name('welcome');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

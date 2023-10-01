@@ -25,10 +25,10 @@ const toggleSidebarMobile = (e) => {
                 <div class="flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                     <ul>
                         <li>
-                            <a href="#" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700">
+                            <Link :href="route('welcome')" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700" :class="route().current('welcome') ? 'bg-gray-100 dark:bg-gray-700' : ''">
                                 <i class="fa-solid fa-hand-sparkles text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"></i>
                                 <span class="ml-3" sidebar-toggle-item>Welcome</span>
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                     <ul class="pb-2 space-y-2">

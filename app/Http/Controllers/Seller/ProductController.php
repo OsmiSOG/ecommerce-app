@@ -6,6 +6,7 @@ use App\Enums\CategoryType;
 use App\Http\Controllers\Controller;
 use App\Invokables\FilterMultipleFields;
 use App\Models\Commerce\Category;
+use App\Models\Commerce\Picture;
 use App\Models\Product\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -58,6 +59,8 @@ class ProductController extends Controller
             'price' => ['required', 'numeric', 'gt:1'],
             'description' => ['required', 'string', 'min:1'],
             'summary' => ['required', 'string', 'min:1', 'max:100'],
+            'pictures' => ['required', 'array', 'min:1'],
+            'pictures.*' => ['required', 'image'],
         ]);
 
         DB::beginTransaction();
@@ -69,6 +72,12 @@ class ProductController extends Controller
             $product->subcategory()->associate($request->subcategory_id);
             $product->user()->associate(auth()->user());
             $product->save();
+
+            foreach ($request->pictures as $picture) {
+                $name = $picture->hashName();
+                $path = $picture->storeAs("products/$product->user_id/$product->id", $name, 'public');
+                $product->pictures()->save(new Picture(['path' => $path]));
+            }
 
             DB::commit();
             return redirect()->route('sell.product.index');
