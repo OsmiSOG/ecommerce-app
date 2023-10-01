@@ -6,6 +6,7 @@ use App\Enums\CategoryType;
 use App\Http\Controllers\Controller;
 use App\Invokables\FilterMultipleFields;
 use App\Models\Commerce\Category;
+use App\Models\Commerce\Picture;
 use App\Models\Service\Service;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -44,6 +45,8 @@ class ServiceController extends Controller
             'name' => ['required', 'string', 'max:190'],
             'description' => ['required', 'string', 'max:500'],
             'limit' => ['nullable', 'integer'],
+            'pictures' => ['required', 'array', 'min:1'],
+            'pictures.*' => ['required', 'image'],
         ]);
 
         $service = new Service($request->all());
@@ -51,6 +54,12 @@ class ServiceController extends Controller
         $service->subcategory()->associate($request->subcategory_id);
         $service->user()->associate($request->user()->id);
         $service->save();
+
+        foreach ($request->pictures as $picture) {
+            $name = $picture->hashName();
+            $path = $picture->storeAs("services/$service->user_id/$service->id", $name, 'public');
+            $service->pictures()->save(new Picture(['path' => $path]));
+        }
 
         return redirect()->route('sell.service.index');
     }

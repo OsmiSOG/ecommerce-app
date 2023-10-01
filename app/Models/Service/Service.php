@@ -3,12 +3,14 @@
 namespace App\Models\Service;
 
 use App\Models\Commerce\Category;
+use App\Models\Commerce\Picture;
 use App\Models\Commerce\Subcategory;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Service extends Model
@@ -35,6 +37,14 @@ class Service extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Get all of the post's pictures.
+     */
+    public function pictures(): MorphMany
+    {
+        return $this->morphMany(Picture::class, 'picturable');
     }
 
     /**
