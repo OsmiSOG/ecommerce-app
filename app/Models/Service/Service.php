@@ -23,6 +23,10 @@ class Service extends Model
         'active',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s'
+    ];
+
     /**
      * Get the user that owns the Service
      *

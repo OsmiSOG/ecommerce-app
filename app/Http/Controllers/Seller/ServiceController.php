@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Seller;
 
 use App\Enums\CategoryType;
 use App\Http\Controllers\Controller;
+use App\Invokables\FilterMultipleFields;
 use App\Models\Commerce\Category;
 use App\Models\Service\Service;
 use Illuminate\Http\JsonResponse;
@@ -11,12 +12,16 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ServiceController extends Controller
 {
     public function index(Request $request) : \Inertia\Response {
         $services = QueryBuilder::for(Service::where('user_id', $request->user()->id))
+            ->allowedFilters(AllowedFilter::custom('search', new FilterMultipleFields, 'name,description,created_at'))
+            ->defaultSort('-created_at')
+            ->allowedSorts('created_at', 'name', 'limit', 'active', 'category_id', 'subcategory_id')
             ->with(['category', 'subcategory'])
             ->paginate()
             ->appends($request->query());
