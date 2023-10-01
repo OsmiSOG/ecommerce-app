@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function () {
             Route::prefix('/deals')->group(function () {
 
             });
+
             Route::prefix('/stock')->group(function () {
 
             });
