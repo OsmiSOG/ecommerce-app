@@ -4,20 +4,20 @@ import { Link, Head, router } from "@inertiajs/vue3";
 import { onMounted, ref } from "vue";
 
 defineProps({
-    products: Object
+    services: Object
 })
 
 </script>
 
 <template>
-    <Head title="Admin - Sell Product"></Head>
+    <Head title="Admin - Sell Service"></Head>
     <AdminLayout>
         <div class="p-12">
 
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <div class="flex justify-between">
                     <div>
-                        <Link :href="route('sell.product.create')" type="button" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Sell Product</Link>
+                        <Link :href="route('sell.service.create')" type="button" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Sell Service</Link>
                     </div>
                     <div class="pb-4 bg-white dark:bg-gray-900">
                         <label for="table-search" class="sr-only">Search</label>
@@ -36,7 +36,7 @@ defineProps({
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 <div class="flex items-center">
-                                    Product name
+                                    Service name
                                     <a href="#"><svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
                                     </svg></a>
@@ -44,7 +44,7 @@ defineProps({
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <div class="flex items-center">
-                                    Brand
+                                    Limit
                                     <a href="#"><svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
                                     </svg></a>
@@ -52,15 +52,7 @@ defineProps({
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <div class="flex items-center">
-                                    Model
-                                    <a href="#"><svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
-                                    </svg></a>
-                                </div>
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                <div class="flex items-center">
-                                    reference
+                                    Plans
                                     <a href="#"><svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
                                     </svg></a>
@@ -83,59 +75,34 @@ defineProps({
                                 </div>
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                <div class="flex items-center">
-                                    Price
-                                    <a href="#"><svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
-                                    </svg></a>
-                                </div>
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                <div class="flex items-center">
-                                    In Stock
-                                    <a href="#"><svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
-                                    </svg></a>
-                                </div>
-                            </th>
-                            <th scope="col" class="px-6 py-3">
                                 <span class="sr-only">Edit</span>
                                 <span class="sr-only">Stock</span>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="product in products.data" :key="product.id">
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="service in services.data" :key="service.id">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ product.name }}
+                                {{ service.name }}
                             </th>
                             <td class="px-6 py-4">
-                                {{ product.brand }}
+                                {{ service.limit }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ product.model }}
+                                {{ service.service_plans_count }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ product.reference }}
+                                {{ service.category.name }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ product.category.name }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ product.subcategory.name }}
-                            </td>
-                            <td class="px-6 py-4">
-                                ${{ product.price }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ product.in_stock ? 'Yes'  : 'No'}}
+                                {{ service.subcategory.name }}
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                             </td>
                         </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-if="products.data.length === 0">
-                            <td colspan="6" class="text-lg text-center">There is no products yet</td>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-if="services.data.length === 0">
+                            <td colspan="6" class="text-lg text-center">There is no services yet</td>
                         </tr>
                     </tbody>
                 </table>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Seller;
 
+use App\Enums\CategoryType;
 use App\Http\Controllers\Controller;
 use App\Models\Commerce\Category;
 use App\Models\Product\Product;
@@ -16,11 +17,11 @@ class ProductController extends Controller
 {
     public function index(Request $request) : \Inertia\Response
     {
-        $products = QueryBuilder::for(Product::class)
+        $products = QueryBuilder::for(Product::where('user_id', $request->user()->id))
             ->with(['category', 'subcategory'])
             ->paginate()
             ->appends($request->query());
-            // dd($products);
+
         return Inertia::render('Seller/Products/Index', [
             'products' => $products
         ]);
@@ -35,14 +36,14 @@ class ProductController extends Controller
     public function create() : \Inertia\Response
     {
         return Inertia::render('Seller/Products/Form', [
-            'categories' => Category::with('subcategories')->get(),
+            'categories' => Category::where('type', CategoryType::Product->name)->with('subcategories')->get(),
         ]);
     }
 
     public function store(Request $request) {
         $request->validate([
-            'category_id' => ['required', Rule::exists('categories', 'id')],
-            'subcategory_id' => ['required', Rule::exists('subcategories', 'id')],
+            'category_id' => ['required', Rule::exists('categories', 'id')->where('type', CategoryType::Product->name)],
+            'subcategory_id' => ['required', Rule::exists('subcategories', 'id')->where('category_id', $request->get('category_id'))],
             'name' => ['required', 'string', 'min:1', 'max:190'],
             'brand' => ['required', 'string', 'min:1', 'max:190'],
             'model' => ['required', 'string', 'min:1', 'max:190'],

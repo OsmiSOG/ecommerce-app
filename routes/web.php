@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Commerce\LandingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Seller\DashboardController;
 use App\Http\Controllers\Seller\ProductController;
+use App\Http\Controllers\Seller\ServiceController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -60,16 +62,15 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('sell')->as('sell.')->middleware('verified', 'enable-seller')->group(function () {
-        Route::prefix('/dashboard')->group(function () {
-
+        Route::prefix('/dashboard')->as('dashboard.')->group(function () {
+            Route::get('/', [DashboardController::class, 'index'])->name('index');
         });
         Route::prefix('/product')->as('product.')->group(function () {
             Route::get('/', [ProductController::class, 'index'])->name('index');
             Route::get('/create', [ProductController::class, 'create'])->name('create');
             Route::post('/', [ProductController::class, 'store'])->name('store');
-            Route::get('/edit/{}', [ProductController::class, 'edit'])->name('edit');
-            Route::patch('/', [ProductController::class, 'update'])->name('update');
-            Route::delete('/', [ProductController::class, 'delete'])->name('delete');
+            Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('edit');
+            Route::patch('/{update}', [ProductController::class, 'update'])->name('update');
 
             Route::prefix('/deals')->group(function () {
 
@@ -79,7 +80,13 @@ Route::middleware('auth')->group(function () {
 
             });
         });
-        Route::prefix('/services')->group(function () {
+        Route::prefix('/services')->as('service.')->group(function () {
+            Route::get('/', [ServiceController::class, 'index'])->name('index');
+            Route::get('/create', [ServiceController::class, 'create'])->name('create');
+            Route::post('/', [ServiceController::class, 'store'])->name('store');
+            Route::get('/edit/{service}', [ServiceController::class, 'edit'])->name('edit');
+            Route::patch('/{service}', [ServiceController::class, 'update'])->name('update');
+
             Route::prefix('/plans')->group(function () {
 
             });

@@ -301,7 +301,7 @@ class DatabaseSeeder extends Seeder
     private function serviceCategories() {
         $category = Category::factory()->create([
             'name' => 'Streaming y Entretenimiento',
-            'type' => CategoryType::Product->name
+            'type' => CategoryType::Service->name
         ]);
         $category->subcategories()->createMany([
             [ 'name' => 'Musica' ],
@@ -314,7 +314,7 @@ class DatabaseSeeder extends Seeder
 
         $category = Category::factory()->create([
             'name' => 'Salud y Deporte',
-            'type' => CategoryType::Product->name
+            'type' => CategoryType::Service->name
         ]);
         $category->subcategories()->createMany([
             [ 'name' => 'Gimnasio' ],
@@ -326,7 +326,7 @@ class DatabaseSeeder extends Seeder
 
         $category = Category::factory()->create([
             'name' => 'Educación',
-            'type' => CategoryType::Product->name
+            'type' => CategoryType::Service->name
         ]);
         $category->subcategories()->createMany([
             [ 'name' => 'Cursos Financieros' ],
