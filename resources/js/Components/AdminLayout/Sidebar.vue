@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted } from 'vue'
+import { Link, Head, router } from "@inertiajs/vue3";
 
 const toggleSidebarMobile = (e) => {
     const sidebar = document.getElementById('sidebar');
@@ -54,22 +55,22 @@ const toggleSidebarMobile = (e) => {
                     <ul class="pb-2 space-y-2">
                         <span class="text-gray-500 dark:text-gray-400">Sell</span>
                         <li>
-                            <a :href="route('sell.dashboard.index')" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700" :class="route().current('sell.dashboard.*') ? 'bg-gray-100 dark:bg-gray-700' : ''">
+                            <Link :href="route('sell.dashboard.index')" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700" :class="route().current('sell.dashboard.*') ? 'bg-gray-100 dark:bg-gray-700' : ''">
                                 <i class="fa-solid fa-chart-pie text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"></i>
                                 <span class="ml-3" sidebar-toggle-item>Dashboard</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a :href="route('sell.product.index')" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700" :class="route().current('sell.product.*') ? 'bg-gray-100 dark:bg-gray-700' : ''">
+                            <Link :href="route('sell.product.index')" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700" :class="route().current('sell.product.*') ? 'bg-gray-100 dark:bg-gray-700' : ''">
                                 <i class="fa-solid fa-shirt text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"></i>
                                 <span class="ml-3" sidebar-toggle-item>Products</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a :href="route('sell.service.index')" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700" :class="route().current('sell.service.*') ? 'bg-gray-100 dark:bg-gray-700' : ''">
+                            <Link :href="route('sell.service.index')" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700" :class="route().current('sell.service.*') ? 'bg-gray-100 dark:bg-gray-700' : ''">
                                 <i class="fa-solid fa-truck-fast text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"></i>
                                 <span class="ml-3" sidebar-toggle-item>Services</span>
-                            </a>
+                            </Link>
                         </li>
                     </ul>
 

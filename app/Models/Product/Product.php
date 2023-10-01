@@ -35,6 +35,7 @@ class Product extends Model
     protected $casts = [
         'active' => 'bool',
         'in_stock' => 'bool',
+        'created_at' => 'datetime:Y-m-d H:i:s',
     ];
 
     /**

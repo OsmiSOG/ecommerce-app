@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Seller;
 
 use App\Enums\CategoryType;
 use App\Http\Controllers\Controller;
+use App\Invokables\FilterMultipleFields;
 use App\Models\Commerce\Category;
 use App\Models\Product\Product;
 use Illuminate\Http\RedirectResponse;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends Controller
@@ -18,10 +20,14 @@ class ProductController extends Controller
     public function index(Request $request) : \Inertia\Response
     {
         $products = QueryBuilder::for(Product::where('user_id', $request->user()->id))
+            ->allowedFilters(AllowedFilter::custom('search', new FilterMultipleFields, 'name,brand,model,type,reference'))
+            ->defaultSort('-created_at')
+            ->allowedSorts('created_at', 'name', 'brand', 'model', 'type', 'price', 'limit', 'active', 'in_stock', 'category_id', 'subcategory_id')
             ->with(['category', 'subcategory'])
             ->paginate()
             ->appends($request->query());
 
+        // return dd($products);
         return Inertia::render('Seller/Products/Index', [
             'products' => $products
         ]);
