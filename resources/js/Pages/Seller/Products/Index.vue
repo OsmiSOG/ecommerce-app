@@ -1,5 +1,7 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
+import Modal from "@/Components/Modal.vue";
+import StockForm from "./Partials/StockForm.vue";
 import { Link, Head, router } from "@inertiajs/vue3";
 import { onMounted, ref } from "vue";
 
@@ -21,6 +23,13 @@ const tableFields = [
 
 const filter = ref(null);
 const sort = ref(null);
+const stockFormModal = ref(false)
+const selectedProduct = ref(null)
+
+const handleFormStock = (product) => {
+    selectedProduct.value = product
+    stockFormModal.value = true
+}
 
 const handleSort = (field) => {
     console.log(field);
@@ -109,7 +118,10 @@ const searchQuery = () => {
                                 ${{ product.price }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ product.in_stock ? 'Yes'  : 'No'}}
+                                <a href="#" @click.prevent="handleStock(product)" class="mr-3">
+                                    {{ product.stock_available_count ?? 'No'}}
+                                </a>
+                                <a href="#" @click.prevent="handleFormStock(product)" class="text-lime-600"><i class="fa-solid fa-circle-plus"></i></a>
                             </td>
                             <td class="px-6 py-4">
                                 {{ product.created_at}}
@@ -153,5 +165,12 @@ const searchQuery = () => {
             </div>
 
         </div>
+
+        <Modal :show="stockFormModal" @close="stockFormModal = false">
+            <StockForm
+                :product="selectedProduct"
+                @submited="stockFormModal = false"
+            ></StockForm>
+        </Modal>
     </AdminLayout>
 </template>

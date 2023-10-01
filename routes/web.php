@@ -4,6 +4,7 @@ use App\Http\Controllers\Commerce\LandingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seller\DashboardController;
 use App\Http\Controllers\Seller\ProductController;
+use App\Http\Controllers\Seller\ProductStockController;
 use App\Http\Controllers\Seller\ServiceController;
 use App\Http\Controllers\Seller\ServicePlanController;
 use Illuminate\Foundation\Application;
@@ -77,8 +78,10 @@ Route::middleware('auth')->group(function () {
 
             });
 
-            Route::prefix('/stock')->group(function () {
-
+            Route::prefix('/stock')->as('stock.')->group(function () {
+                Route::get('/{product}/{available}', [ProductStockController::class, 'get'])->name('get');
+                Route::post('/{product}', [ProductStockController::class, 'store'])->name('store');
+                Route::delete('/{productStock}', [ProductStockController::class, 'destroy'])->name('delete');
             });
         });
         Route::prefix('/services')->as('service.')->group(function () {

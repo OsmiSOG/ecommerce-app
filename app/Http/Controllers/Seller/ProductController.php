@@ -25,6 +25,7 @@ class ProductController extends Controller
             ->defaultSort('-created_at')
             ->allowedSorts('created_at', 'name', 'brand', 'model', 'type', 'price', 'limit', 'active', 'in_stock', 'category_id', 'subcategory_id')
             ->with(['category', 'subcategory'])
+            ->withCount('stockAvailable')
             ->paginate()
             ->appends($request->query());
 

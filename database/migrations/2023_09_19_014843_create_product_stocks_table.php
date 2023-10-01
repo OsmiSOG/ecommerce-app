@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('serial');
             $table->boolean('automatic');
-            $table->double('sold_price', 14, 2);
-            $table->dateTime('sold_at');
+            $table->double('sold_price', 14, 2)->nullable();
+            $table->dateTime('sold_at')->nullable();
             $table->foreignId('product_id')->constrained('products');
             $table->foreignId('sale_id')->nullable()->constrained('sales');
             $table->foreignId('deal_id')->nullable()->constrained('product_deals');

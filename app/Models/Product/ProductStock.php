@@ -12,6 +12,13 @@ class ProductStock extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'serial',
+        'automatic',
+        'sold_price',
+        'sold_at',
+    ];
+
     /**
      * Get the product that owns the ProductStock
      *
