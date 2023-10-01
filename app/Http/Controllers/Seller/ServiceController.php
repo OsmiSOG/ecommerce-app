@@ -13,6 +13,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
+use OsmiSOG\Subscriptions\Enums\CurrencyEnum;
+use OsmiSOG\Subscriptions\Enums\DiscountTypeEnum;
+use OsmiSOG\Subscriptions\Enums\FrequencyEnum;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -24,11 +27,18 @@ class ServiceController extends Controller
             ->defaultSort('-created_at')
             ->allowedSorts('created_at', 'name', 'limit', 'active', 'category_id', 'subcategory_id')
             ->with(['category', 'subcategory'])
+            ->withCount('servicePlans')
             ->paginate()
             ->appends($request->query());
 
+        $currencyEnum = CurrencyEnum::cases();
+        $frequencyEnum = FrequencyEnum::cases();
+        $discountTypeEnum = DiscountTypeEnum::cases();
         return Inertia::render('Seller/Services/Index', [
-            'services' => $services
+            'services' => $services,
+            'currencies' => $currencyEnum,
+            'frequencies' => $frequencyEnum,
+            'discountTypes' => $discountTypeEnum
         ]);
     }
 

@@ -6,11 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OsmiSOG\Subscriptions\Models\Plan;
 
 class ServicePlan extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected static function booted()
+    {
+        static::deleted(function ($servicePlan) {
+            $servicePlan->plan()->delete();
+        });
+    }
 
     /**
      * Get the service that owns the ServicePlan

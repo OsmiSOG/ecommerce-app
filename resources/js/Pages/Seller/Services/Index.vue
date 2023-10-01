@@ -1,10 +1,16 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
+import Modal from "@/Components/Modal.vue";
+import PlanForm from "./Partials/PlanForm.vue";
+import Plans from "./Partials/Plans.vue";
 import { Link, Head, router } from "@inertiajs/vue3";
 import { onMounted, ref } from "vue";
 
 const props = defineProps({
-    services: Object
+    services: Object,
+    currencies: Array,
+    frequencies: Array,
+    discountTypes: Array
 })
 
 const tableFields = [
@@ -18,6 +24,9 @@ const tableFields = [
 
 const filter = ref(null);
 const sort = ref(null);
+const planFormModal = ref(false)
+const planModal = ref(false)
+const selectedService = ref(null)
 
 const handleSort = (field) => {
     console.log(field);
@@ -27,6 +36,15 @@ const handleSort = (field) => {
         sort.value = field
     }
     searchQuery()
+}
+
+const handleFormPlan = (service) => {
+    selectedService.value = service
+    planFormModal.value = true
+}
+const handlePlan = (service) => {
+    selectedService.value = service
+    planModal.value = true
 }
 
 const searchQuery = () => {
@@ -89,7 +107,10 @@ const searchQuery = () => {
                                 {{ service.limit }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ service.service_plans_count }}
+                                <a href="#" @click.prevent="handlePlan(service)" class="mr-3">
+                                    {{ service.service_plans_count }}
+                                </a>
+                                <a href="#" @click.prevent="handleFormPlan(service)" class="text-lime-600"><i class="fa-solid fa-circle-plus"></i></a>
                             </td>
                             <td class="px-6 py-4">
                                 {{ service.category.name }}
@@ -139,5 +160,19 @@ const searchQuery = () => {
             </div>
 
         </div>
+        <Modal :show="planFormModal" @close="planFormModal = false">
+            <PlanForm
+                :service="selectedService"
+                :currencies="currencies"
+                :frequencies="frequencies"
+                :discount-types="discountTypes"
+                @submited="planFormModal = false"
+            ></PlanForm>
+        </Modal>
+        <Modal :show="planModal" max-width="4xl" @close="planModal = false">
+            <Plans
+                :service="selectedService"
+            ></Plans>
+        </Modal>
     </AdminLayout>
 </template>

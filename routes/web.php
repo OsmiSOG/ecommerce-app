@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seller\DashboardController;
 use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\Seller\ServiceController;
+use App\Http\Controllers\Seller\ServicePlanController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -87,9 +88,14 @@ Route::middleware('auth')->group(function () {
             Route::get('/edit/{service}', [ServiceController::class, 'edit'])->name('edit');
             Route::patch('/{service}', [ServiceController::class, 'update'])->name('update');
 
-            Route::prefix('/plans')->group(function () {
-
+            Route::prefix('/plans')->as('plan.')->group(function () {
+                Route::get('/{service}', [ServicePlanController::class, 'get'])->name('get');
+                Route::post('/{service}', [ServicePlanController::class, 'store'])->name('store');
+                Route::put('/{servicePlan}', [ServicePlanController::class, 'update'])->name('update');
+                Route::put('/toggle-active/{servicePlan}', [ServicePlanController::class, 'toggleActive'])->name('toggle-active');
+                Route::delete('/{servicePlan}', [ServicePlanController::class, 'destroy'])->name('delete');
             });
+
             Route::prefix('/subscribtions')->group(function () {
 
             });
