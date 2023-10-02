@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Commerce\LandingController;
+use App\Http\Controllers\Commerce\ProductOverviewController;
 use App\Http\Controllers\Commerce\ProductsDashboardController;
 use App\Http\Controllers\Commerce\ServicesDashboardController;
 use App\Http\Controllers\ProfileController;
@@ -35,7 +36,7 @@ Route::get('/test', function () {
 
 Route::get('/', LandingController::class)->name('home');
 Route::get('/products', ProductsDashboardController::class)->name('products');
-Route::get('/products/{product}', LandingController::class);
+Route::get('/products/{product}', ProductOverviewController::class)->name('products.overview');
 
 Route::get('/services', ServicesDashboardController::class)->name('services');
 Route::get('/services/{service}', LandingController::class);
