@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('card_label');
             $table->string('card_franchise');
             $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('subscription_id')->constrained('subscriptions');
             $table->timestamps();
             $table->softDeletes();
         });

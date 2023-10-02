@@ -20,7 +20,8 @@ class SubscriberInformation extends Model
         'card_token',
         'card_label',
         'card_franchise',
-        'user_id'
+        'user_id',
+        'subscription_id'
     ];
 
     /**

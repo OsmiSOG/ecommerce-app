@@ -60,16 +60,41 @@ class SubscriptionController extends Controller
 
             $subscription = $subscriber->newPlanSubscription($plan);
 
-            if (!$subscription->onTrial()) {
-                $tokenized = Tokenizer::init()->generate(new Card(
-                    $request->card_holder,
-                    $request->card_number,
-                    Carbon::parse($request->date)->year,
-                    Carbon::parse($request->date)->month,
-                    $request->card_cvv,
-                    1
-                ));
+            $tokenized = Tokenizer::init()->generate(new Card(
+                $request->card_holder,
+                $request->card_number,
+                Carbon::parse($request->date)->year,
+                Carbon::parse($request->date)->month,
+                $request->card_cvv,
+                1
+            ));
 
+            $subscriberInfo = SubscriberInformation::where('user_id', $request->user()->id)->where('number_id', $request->identification_number)->first();
+            $client = null;
+            if ($subscriberInfo) {
+                $client = ClientManager::init()->get($request->identification_number);
+            } else {
+                $client = ClientManager::init()->create(new Client(
+                    $request->user()->name,
+                    $request->user()->email,
+                    $request->identification_type,
+                    $request->identification_number,
+                    $request->number_phone,
+                    'COL', 'City', 'Address'
+                ));
+                SubscriberInformation::create([
+                    'number_id' => $request->identification_number,
+                    'client_id' => $client->id(),
+                    'card_id' => $tokenized->toArray()['id'],
+                    'card_token' => $tokenized->getToken(),
+                    'card_label' => $tokenized->toArray()['numberLabel'],
+                    'card_franchise' => $tokenized->toArray()['franchise'],
+                    'user_id' => $request->user()->id,
+                    'subscription_id' => $subscription->id,
+                ]);
+            }
+
+            if (!$subscription->onTrial()) {
                 $total = $plan->price;
                 if ($subscription->discount_ends_at && $subscription->ends_at->lte($subscription->discount_ends_at)) {
                     if ($plan->discount_type_amount === DiscountTypeEnum::Percentage->value) {
@@ -77,30 +102,6 @@ class SubscriptionController extends Controller
                     } else {
                         $total = $total - $plan->discount_amount;
                     }
-                }
-
-                $subscriberInfo = SubscriberInformation::where('user_id', $request->user()->id)->where('number_id', $request->identification_number)->first();
-                $client = null;
-                if ($subscriberInfo) {
-                    $client = ClientManager::init()->get($request->identification_number);
-                } else {
-                    $client = ClientManager::init()->create(new Client(
-                        $request->user()->name,
-                        $request->user()->email,
-                        $request->identification_type,
-                        $request->identification_number,
-                        $request->number_phone,
-                        'COL', 'City', 'Address'
-                    ));
-                    SubscriberInformation::create([
-                        'number_id' => $request->identification_number,
-                        'client_id' => $client->id(),
-                        'card_id' => $tokenized->toArray()['id'],
-                        'card_token' => $tokenized->getToken(),
-                        'card_label' => $tokenized->toArray()['numberLabel'],
-                        'card_franchise' => $tokenized->toArray()['franchise'],
-                        'user_id' => $request->user()->id,
-                    ]);
                 }
 
                 $sale = new Sale([
