@@ -2391,12 +2391,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:OsmiSOG/payment-package.git",
-                "reference": "cbe876dec0e43a31c34cc380d47f051d747cf7d4"
+                "reference": "f62094720445987e8f7ee215667dfaacd632d670"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OsmiSOG/payment-package/zipball/cbe876dec0e43a31c34cc380d47f051d747cf7d4",
-                "reference": "cbe876dec0e43a31c34cc380d47f051d747cf7d4",
+                "url": "https://api.github.com/repos/OsmiSOG/payment-package/zipball/f62094720445987e8f7ee215667dfaacd632d670",
+                "reference": "f62094720445987e8f7ee215667dfaacd632d670",
                 "shasum": ""
             },
             "require": {
@@ -2458,7 +2458,7 @@
                 "source": "https://github.com/OsmiSOG/payment-package/tree/main",
                 "issues": "https://github.com/OsmiSOG/payment-package/issues"
             },
-            "time": "2023-10-01T20:43:29+00:00"
+            "time": "2023-10-02T14:29:04+00:00"
         },
         {
             "name": "osmisog/subscriptions",
@@ -2466,12 +2466,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:OsmiSOG/subscription-package.git",
-                "reference": "5381a1131b511c0a5884de80500d5d2b50000485"
+                "reference": "1b4121709923078ee8a2efb2d1eb8ec14d3f89c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OsmiSOG/subscription-package/zipball/5381a1131b511c0a5884de80500d5d2b50000485",
-                "reference": "5381a1131b511c0a5884de80500d5d2b50000485",
+                "url": "https://api.github.com/repos/OsmiSOG/subscription-package/zipball/1b4121709923078ee8a2efb2d1eb8ec14d3f89c9",
+                "reference": "1b4121709923078ee8a2efb2d1eb8ec14d3f89c9",
                 "shasum": ""
             },
             "require": {
@@ -2530,7 +2530,7 @@
                 "source": "https://github.com/OsmiSOG/subscription-package/tree/main",
                 "issues": "https://github.com/OsmiSOG/subscription-package/issues"
             },
-            "time": "2023-10-01T20:41:49+00:00"
+            "time": "2023-10-02T14:04:05+00:00"
         },
         {
             "name": "phpoption/phpoption",

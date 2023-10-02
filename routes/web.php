@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Buyer\SubscriptionController;
 use App\Http\Controllers\Commerce\LandingController;
 use App\Http\Controllers\Commerce\ProductOverviewController;
 use App\Http\Controllers\Commerce\ProductsDashboardController;
@@ -55,8 +56,8 @@ Route::middleware('auth')->group(function () {
 
     });
 
-    Route::prefix('/subscriptions')->group(function () {
-
+    Route::prefix('/subscriptions')->as('subscription.')->group(function () {
+        Route::post('/', [SubscriptionController::class, 'store'])->name('store');
     });
 
     Route::prefix('/transactions')->group(function () {

@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('subscriber_information', function (Blueprint $table) {
             $table->id();
-            $table->double('amount', 14, 2, true);
-            $table->string('trazability_id');
-            $table->string('status');
-            $table->dateTime('approved_at');
+            $table->string('number_id');
+            $table->string('client_id');
+            $table->string('card_id');
+            $table->string('card_token');
+            $table->string('card_label');
+            $table->string('card_franchise');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('subscriber_information');
     }
 };

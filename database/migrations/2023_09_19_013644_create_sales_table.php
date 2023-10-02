@@ -17,7 +17,6 @@ return new class extends Migration
             $table->double('total', 14, 2, true);
             $table->foreignId('buyer_id')->constrained('users');
             $table->foreignId('saler_id')->constrained('users');
-            $table->foreignId('transaction_id')->constrained('transactions');
             $table->timestamps();
             $table->softDeletes();
         });
