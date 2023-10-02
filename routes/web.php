@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Commerce\LandingController;
+use App\Http\Controllers\Commerce\ProductsDashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seller\DashboardController;
 use App\Http\Controllers\Seller\ProductController;
@@ -32,10 +33,10 @@ Route::get('/test', function () {
 });
 
 Route::get('/', LandingController::class)->name('home');
-Route::get('/products', LandingController::class);
+Route::get('/products', ProductsDashboardController::class)->name('products');
 Route::get('/products/{product}', LandingController::class);
 
-Route::get('/services', LandingController::class);
+Route::get('/services', LandingController::class)->name('services');
 Route::get('/services/{service}', LandingController::class);
 
 Route::get('/welcome', function () {

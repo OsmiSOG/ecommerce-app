@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -74,6 +75,14 @@ class Product extends Model
     public function pictures(): MorphMany
     {
         return $this->morphMany(Picture::class, 'picturable');
+    }
+
+    /**
+     * Get all of the post's pictures.
+     */
+    public function frontPicture(): MorphOne
+    {
+        return $this->morphOne(Picture::class, 'picturable')->ofMany('created_at', 'min');
     }
 
     /**
