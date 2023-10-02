@@ -27,92 +27,99 @@ class SubscriptionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'plan_id' => ['required', Rule::exists('subscription_plans', 'id')
+            'plan_id' => ['required', Rule::exists('plans', 'id')
                 ->whereNull('deleted_at')
                 ->where('active', true)
             ],
             'card_holder' => ['required', 'string', 'max:80'],
             'card_number' => ['required'],
-            'card_datetime' => ['required', 'date_format:Y-m'],
+            'card_datetime' => ['required', 'date_format:m-y'],
             'card_cvv' => ['required'],
             'identification_type' => ['required', 'string'],
-            'identification_number' => ['required', 'number'],
-            'number_phone' => ['required', 'number'],
+            'identification_number' => ['required', 'numeric'],
+            'number_phone' => ['required', 'numeric'],
         ]);
 
+        $planIds = Service::whereHas('servicePlans', function ($query) use ($request) {
+            $query->where('plan_id', $request->plan_id);
+        })->first()->servicePlans->pluck('plan_id');
+        $subscription = $request->user()->subscriptions()->whereHas('plan', function ($query) use ($planIds) {
+            $query->whereIn('plan_id', $planIds);
+        });
+        if ($subscription) {
+            abort(403, "You already have a subscription with this service or plan");
+        }
         DB::beginTransaction();
         try {
-            $tokenized = Tokenizer::init()->generate(new Card(
-                $request->card_holder,
-                $request->card_number,
-                Carbon::parse($request->date)->year,
-                Carbon::parse($request->date)->month,
-                $request->card_cvv,
-                1
-            ));
-
             $plan = Plan::findOrFail($request->plan_id);
             $service = Service::whereHas('servicePlans', function ($query) use ($plan) {
                 $query->where('plan_id', $plan->id);
-            });
+            })->first();
 
             $subscriber = $request->user();
 
             $subscription = $subscriber->newPlanSubscription($plan);
 
-            $total = $plan->price;
-            if ($subscription->discount_ends_at && $subscription->ends_at->lte($subscription->discount_ends_at)) {
-                if ($plan->discount_type_amount === DiscountTypeEnum::Percentage->value) {
-                    $total = $total * $plan->discount_amount;
-                } else {
-                    $total = $total - $plan->discount_amount;
-                }
-            }
-
-            $subscriberInfo = SubscriberInformation::where('user_id', $request->user()->id)->where('number_id', $request->identification_number)->first();
-            $client = null;
-            if ($subscriberInfo) {
-                $client = ClientManager::init()->get($request->identification_number);
-            } else {
-                $client = ClientManager::init()->create(new Client(
-                    $request->user()->name,
-                    $request->user()->email,
-                    $request->identification_type,
-                    $request->identification_number,
-                    $request->number_phone,
-                    'COL', 'City', 'Address'
+            if (!$subscription->onTrial()) {
+                $tokenized = Tokenizer::init()->generate(new Card(
+                    $request->card_holder,
+                    $request->card_number,
+                    Carbon::parse($request->date)->year,
+                    Carbon::parse($request->date)->month,
+                    $request->card_cvv,
+                    1
                 ));
-                SubscriberInformation::create([
-                    'number_id' => $request->identification_number,
-                    'client_id' => $client->id(),
-                    'card_id' => $tokenized->toArray()['id'],
-                    'card_token' => $tokenized->getToken(),
-                    'card_label' => $tokenized->toArray()['numberLabel'],
-                    'card_franchise' => $tokenized->toArray()['franchise'],
-                    'user_id' => $request->user()->id,
+
+                $total = $plan->price;
+                if ($subscription->discount_ends_at && $subscription->ends_at->lte($subscription->discount_ends_at)) {
+                    if ($plan->discount_type_amount === DiscountTypeEnum::Percentage->value) {
+                        $total = $total * $plan->discount_amount;
+                    } else {
+                        $total = $total - $plan->discount_amount;
+                    }
+                }
+
+                $subscriberInfo = SubscriberInformation::where('user_id', $request->user()->id)->where('number_id', $request->identification_number)->first();
+                $client = null;
+                if ($subscriberInfo) {
+                    $client = ClientManager::init()->get($request->identification_number);
+                } else {
+                    $client = ClientManager::init()->create(new Client(
+                        $request->user()->name,
+                        $request->user()->email,
+                        $request->identification_type,
+                        $request->identification_number,
+                        $request->number_phone,
+                        'COL', 'City', 'Address'
+                    ));
+                    SubscriberInformation::create([
+                        'number_id' => $request->identification_number,
+                        'client_id' => $client->id(),
+                        'card_id' => $tokenized->toArray()['id'],
+                        'card_token' => $tokenized->getToken(),
+                        'card_label' => $tokenized->toArray()['numberLabel'],
+                        'card_franchise' => $tokenized->toArray()['franchise'],
+                        'user_id' => $request->user()->id,
+                    ]);
+                }
+
+                $sale = new Sale([
+                    'total' => $total
                 ]);
+                $sale->salable()->associate($subscription);
+                $sale->buyer()->associate($subscriber);
+                $sale->seller()->associate($service->user_id);
+                $sale->save();
+
+                $transaction = new Transaction($total, $plan->description, $plan->currency, TransactionMethods::Card->value, $plan->id, $client->id());
+                $resourceTransaction = Transactioner::init()->generate($transaction);
+                $history = $resourceTransaction->addHistory($sale);
+                $resourceTransaction = PurcharsePayment::init()->payTokenized($history->trazability_id, $tokenized->toArray()['id'], $tokenized->getToken(), 1);
+                $resourceTransaction->addHistory($sale);
             }
-
-            $transaction = new Transaction($total, $plan->description, $plan->currency, TransactionMethods::Card->value, $plan->id, $client->id());
-            $resourceTransaction = Transactioner::init()->generate($transaction);
-
-            $sale = new Sale([
-                'total' => $total
-            ]);
-            $sale->salable()->associate($subscription);
-            $sale->buyer()->associate($subscriber);
-            $sale->seller()->associate($service->user_id);
-            $sale->save();
-
-            $history = $resourceTransaction->addHistory($sale);
-            $resourceTransaction = PurcharsePayment::init()->payTokenized($history->trazability_id, $tokenized->toArray()['id'], $tokenized->getToken(), 1);
-            $resourceTransaction->addHistory();
 
             DB::commit();
-            return response()->json([
-                'saved' => true,
-                'subscription' => $subscription,
-            ]);
+            return redirect()->back();
         } catch (RequestException $exception) {
             DB::rollBack();
             // \Sentry\captureException($exception);

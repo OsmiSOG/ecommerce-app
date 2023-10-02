@@ -2,6 +2,8 @@ import './bootstrap';
 import '../css/app.css';
 import 'vue-select/dist/vue-select.css';
 
+import VueCreditCardValidation from 'vue-credit-card-validation';
+
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
@@ -21,6 +23,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
+            .use(VueCreditCardValidation)
             .component('v-select', vSelect)
             .mount(el);
     },

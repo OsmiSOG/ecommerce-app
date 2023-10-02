@@ -2,8 +2,10 @@
 import pluralize from "pluralize";
 import NumberFormat from "@/Helpers/NumberFormat";
 import MarketLayout from "@/Layouts/MarketLayout.vue";
+import Modal from "@/Components/Modal.vue";
+import SubscriptionForm from "./Partials/SubscriptionForm.vue";
 import { Head, Link } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { initFlowbite } from 'flowbite'
 
 defineProps({
@@ -13,6 +15,14 @@ defineProps({
 onMounted(() => {
     initFlowbite();
 })
+
+const selectedPlan = ref(null);
+const showModal = ref(false);
+
+const handleModalSubscription = (plan) => {
+    selectedPlan.value = plan
+    showModal.value = true
+}
 
 </script>
 
@@ -96,12 +106,18 @@ onMounted(() => {
                                 <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400" v-if="service.plan.discount_subscribers_limit">Only first {{ service.plan.discount_subscribers_limit }} subscribers </span>
                             </li>
                         </ul>
-                        <button type="button" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center">Choose plan</button>
+                        <button @click.prevent="handleModalSubscription(service.plan)" type="button" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center">Choose plan</button>
                     </div>
 
                 </div>
             </div>
         </div>
+        <Modal :show="showModal" @close="showModal = false">
+            <SubscriptionForm
+                :plan="selectedPlan"
+                @submited="showModal = false"
+            ></SubscriptionForm>
+        </Modal>
     </MarketLayout>
 </template>
 

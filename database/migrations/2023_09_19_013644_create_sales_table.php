@@ -16,7 +16,7 @@ return new class extends Migration
             $table->morphs('salable');
             $table->double('total', 14, 2, true);
             $table->foreignId('buyer_id')->constrained('users');
-            $table->foreignId('saler_id')->constrained('users');
+            $table->foreignId('seller_id')->constrained('users');
             $table->timestamps();
             $table->softDeletes();
         });
