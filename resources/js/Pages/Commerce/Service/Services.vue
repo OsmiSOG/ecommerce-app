@@ -1,21 +1,21 @@
 <script setup>
 import MarketLayout from "@/Layouts/MarketLayout.vue";
-import ProductList from "@/Components/Commerce/ProductList.vue";
+import ServiceList from "@/Components/Commerce/ServiceList.vue";
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref } from 'vue'
 
 const props = defineProps({
     categories: Array,
-    products: Object,
+    services: Object,
 })
 
 const filter = ref(null);
 const sort = ref(null);
 
 const searchQuery = () => {
-    router.get(route('products', {
+    router.get(route('services', {
         _query: {
-            page: filter.value ? 1 : props.products.current_page,
+            page: filter.value ? 1 : props.services.current_page,
             sort: sort.value,
             filter: {
                 search: filter.value
@@ -27,10 +27,10 @@ const searchQuery = () => {
 </script>
 
 <template>
-    <Head title="Sr Developer - Products" />
+    <Head title="Sr Developer - services" />
 
     <MarketLayout>
-        <h4 class="text-center mt-12 text-2xl font-bold"> Find your product </h4>
+        <h4 class="text-center mt-12 text-2xl font-bold"> Find your service </h4>
         <div class="flex justify-end">
             <div class="pb-4">
                 <label for="table-search" class="sr-only">Search</label>
@@ -45,20 +45,20 @@ const searchQuery = () => {
             </div>
         </div>
 
-        <ProductList :products="products.data"></ProductList>
+        <ServiceList :services="services.data"></ServiceList>
 
         <nav class="pt-4" aria-label="Table navigation">
             <div class="flex items-center justify-center">
                 <ul class="inline-flex -space-x-px text-sm h-8">
                     <li>
                         <Link
-                            :href="products.first_page_url"
+                            :href="services.first_page_url"
                             class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700">
                             &laquo;&laquo;
                         </Link>
                     </li>
 
-                    <li v-for="(link, key) in products.links" :key="key">
+                    <li v-for="(link, key) in services.links" :key="key">
                         <a v-if="!link.url" aria-disabled="true" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
                             <span v-html="link.label"></span>
                         </a>
@@ -68,14 +68,14 @@ const searchQuery = () => {
                     </li>
 
                     <li>
-                        <Link :href="products.last_page_url" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700">
+                        <Link :href="services.last_page_url" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700">
                             &raquo;&raquo;
                         </Link>
                     </li>
                 </ul>
             </div>
             <div class="flex items-center justify-center">
-                <span class="text-sm font-normal text-gray-500">Showing <span class="font-semibold text-gray-900">{{products.from}}-{{products.to}}</span> of <span class="font-semibold text-gray-900">{{products.total}}</span></span>
+                <span class="text-sm font-normal text-gray-500">Showing <span class="font-semibold text-gray-900">{{services.from}}-{{services.to}}</span> of <span class="font-semibold text-gray-900">{{services.total}}</span></span>
             </div>
         </nav>
     </MarketLayout>

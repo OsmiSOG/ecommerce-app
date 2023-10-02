@@ -27,7 +27,7 @@ defineProps({
                 <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Marketplace For Everyone Buy and Sell Products and Services</h1>
                 <p class="mt-6 text-lg leading-8 text-gray-600">Buy products or services from other verified commerces or sell your product and services. Start here and enjoy the best experience with us.</p>
                 <div class="mt-10 flex items-center justify-center gap-x-6">
-                    <a :href="route('register')" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">I wanna sell</a>
+                    <Link :href="route('register')" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">I wanna sell</Link>
                     <a href="#market" class="text-sm font-semibold leading-6 text-gray-900">Let's to buy <span aria-hidden="true">→</span></a>
                 </div>
             </div>
@@ -37,6 +37,7 @@ defineProps({
         </div>
         <div id="market">
             <ProductList label="The latest products added" :products="products" :url-more="route('products')"/>
+            <hr class="text-gray-200">
             <ServiceList label="The latest services added" :services="services" :url-more="route('services')"/>
         </div>
     </MarketLayout>

@@ -24,7 +24,6 @@ class ProductsDashboardController extends Controller
                 AllowedFilter::exact('subcategory_id'),
                 AllowedFilter::custom('search', new FilterMultipleFields, 'name,brand,model,type,reference')
             ])
-            // ->allowedFilters()
             ->defaultSort('-created_at')
             ->allowedSorts('created_at', 'price')
             ->with(['category', 'subcategory', 'user', 'frontPicture'])
