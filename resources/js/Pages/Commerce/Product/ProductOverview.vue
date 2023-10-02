@@ -19,7 +19,7 @@ onMounted(() => {
     <Head :title="`Sr Developer - Product ${product.name} Overview`" />
 
     <MarketLayout>
-        <div class="bg-white">
+        <div>
             <div class="pt-6">
 
                 <!-- Image gallery -->

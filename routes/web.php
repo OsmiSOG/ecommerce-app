@@ -3,6 +3,7 @@
 use App\Http\Controllers\Commerce\LandingController;
 use App\Http\Controllers\Commerce\ProductOverviewController;
 use App\Http\Controllers\Commerce\ProductsDashboardController;
+use App\Http\Controllers\Commerce\ServiceOverviewController;
 use App\Http\Controllers\Commerce\ServicesDashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seller\DashboardController;
@@ -39,7 +40,7 @@ Route::get('/products', ProductsDashboardController::class)->name('products');
 Route::get('/products/{product}', ProductOverviewController::class)->name('products.overview');
 
 Route::get('/services', ServicesDashboardController::class)->name('services');
-Route::get('/services/{service}', LandingController::class);
+Route::get('/services/{service}', ServiceOverviewController::class)->name('services.overview');
 
 Route::get('/welcome', function () {
     return Inertia::render('Welcome');

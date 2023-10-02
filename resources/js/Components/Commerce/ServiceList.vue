@@ -26,10 +26,10 @@ defineProps({
                     <div class="mt-4 flex justify-between">
                         <div>
                             <h3 class="text-sm text-gray-700">
-                                <a :href="service.href">
+                                <Link :href="route('services.overview', service.id)">
                                 <span aria-hidden="true" class="absolute inset-0" />
                                 {{ service.name }}
-                                </a>
+                                </Link>
                             </h3>
                             <p class="mt-1 text-sm text-gray-500">{{ service.description }}</p>
                         </div>
