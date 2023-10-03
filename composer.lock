@@ -1044,16 +1044,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v10.25.2",
+            "version": "v10.26.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "6014dd456b414b305fb0b408404efdcec18e64bc"
+                "reference": "6e5440f7c518f26b4495e5d7e4796ec239e26df9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/6014dd456b414b305fb0b408404efdcec18e64bc",
-                "reference": "6014dd456b414b305fb0b408404efdcec18e64bc",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/6e5440f7c518f26b4495e5d7e4796ec239e26df9",
+                "reference": "6e5440f7c518f26b4495e5d7e4796ec239e26df9",
                 "shasum": ""
             },
             "require": {
@@ -1240,20 +1240,20 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-09-28T14:08:59+00:00"
+            "time": "2023-10-03T14:24:20+00:00"
         },
         {
             "name": "laravel/prompts",
-            "version": "v0.1.10",
+            "version": "v0.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/prompts.git",
-                "reference": "37ed55f6950d921a87d5beeab16d03f8de26b060"
+                "reference": "cce65a90e64712909ea1adc033e1d88de8455ffd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/prompts/zipball/37ed55f6950d921a87d5beeab16d03f8de26b060",
-                "reference": "37ed55f6950d921a87d5beeab16d03f8de26b060",
+                "url": "https://api.github.com/repos/laravel/prompts/zipball/cce65a90e64712909ea1adc033e1d88de8455ffd",
+                "reference": "cce65a90e64712909ea1adc033e1d88de8455ffd",
                 "shasum": ""
             },
             "require": {
@@ -1295,9 +1295,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/prompts/issues",
-                "source": "https://github.com/laravel/prompts/tree/v0.1.10"
+                "source": "https://github.com/laravel/prompts/tree/v0.1.11"
             },
-            "time": "2023-09-29T07:26:07+00:00"
+            "time": "2023-10-03T01:07:35+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -2391,12 +2391,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:OsmiSOG/payment-package.git",
-                "reference": "6716e9d68e1b31e77ca0be386b5b84998954867b"
+                "reference": "3c16ca792fed347a26580c3237f6879a36fd379e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OsmiSOG/payment-package/zipball/6716e9d68e1b31e77ca0be386b5b84998954867b",
-                "reference": "6716e9d68e1b31e77ca0be386b5b84998954867b",
+                "url": "https://api.github.com/repos/OsmiSOG/payment-package/zipball/3c16ca792fed347a26580c3237f6879a36fd379e",
+                "reference": "3c16ca792fed347a26580c3237f6879a36fd379e",
                 "shasum": ""
             },
             "require": {
@@ -2458,7 +2458,7 @@
                 "source": "https://github.com/OsmiSOG/payment-package/tree/main",
                 "issues": "https://github.com/OsmiSOG/payment-package/issues"
             },
-            "time": "2023-10-02T18:26:41+00:00"
+            "time": "2023-10-02T18:36:26+00:00"
         },
         {
             "name": "osmisog/subscriptions",
@@ -2466,12 +2466,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:OsmiSOG/subscription-package.git",
-                "reference": "d2e774c5ffb969e811d06922d7c31589e4b91ba1"
+                "reference": "82b53c54d62cb39650c3687bc3b4f025278aacf9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OsmiSOG/subscription-package/zipball/d2e774c5ffb969e811d06922d7c31589e4b91ba1",
-                "reference": "d2e774c5ffb969e811d06922d7c31589e4b91ba1",
+                "url": "https://api.github.com/repos/OsmiSOG/subscription-package/zipball/82b53c54d62cb39650c3687bc3b4f025278aacf9",
+                "reference": "82b53c54d62cb39650c3687bc3b4f025278aacf9",
                 "shasum": ""
             },
             "require": {
@@ -2530,7 +2530,7 @@
                 "source": "https://github.com/OsmiSOG/subscription-package/tree/main",
                 "issues": "https://github.com/OsmiSOG/subscription-package/issues"
             },
-            "time": "2023-10-02T17:14:32+00:00"
+            "time": "2023-10-03T17:00:50+00:00"
         },
         {
             "name": "phpoption/phpoption",

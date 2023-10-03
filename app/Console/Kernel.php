@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Invokables\Recurrence;
+use App\Invokables\Subscription\Recurrence;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 

@@ -60,7 +60,9 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('/subscriptions')->as('subscription.')->group(function () {
+        Route::get('/', [SubscriptionController::class, 'index'])->name('index');
         Route::post('/', [SubscriptionController::class, 'store'])->name('store');
+        Route::post('/cancel/{subscription}', [SubscriptionController::class, 'cancel'])->name('cancel');
     });
 
     Route::prefix('/transactions')->group(function () {

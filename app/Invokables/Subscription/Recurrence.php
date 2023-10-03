@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Invokables;
+namespace App\Invokables\Subscription;
 
 use App\Models\Information\SubscriberInformation;
 use App\Models\Sale\Sale;
@@ -9,8 +9,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\DB;
 use OsmiSOG\Payments\Checkout\PurcharsePayment;
-use OsmiSOG\Payments\Client\ClientManager;
-use OsmiSOG\Payments\Client\Models\Client;
 use OsmiSOG\Payments\Enums\TransactionMethods;
 use OsmiSOG\Payments\Enums\TransactionStatus;
 use OsmiSOG\Payments\Transaction\Models\Transaction;
@@ -31,7 +29,7 @@ class Recurrence
         })
         ->orWhere(function ($query) {
             $query->where('grace_ends_at', '>=', Carbon::today()->startOfDay())->where('ends_at', '<=', Carbon::today()->startOfDay());
-        });
+        })->whereNotNull('canceled_at');
 
 
         foreach ($subscriptions->cursor() as $subscription) {

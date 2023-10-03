@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Buyer;
 
 use App\Http\Controllers\Controller;
+use App\Invokables\FilterMultipleFields;
 use App\Models\Information\SubscriberInformation;
 use App\Models\Sale\Sale;
 use App\Models\Service\Service;
+use App\Models\Service\Subscription;
 use Carbon\Carbon;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Inertia\Inertia;
 use OsmiSOG\Payments\Checkout\PurcharsePayment;
 use OsmiSOG\Payments\Client\ClientManager;
 use OsmiSOG\Payments\Client\Models\Client;
@@ -21,9 +25,24 @@ use OsmiSOG\Payments\Transaction\Models\Transaction;
 use OsmiSOG\Payments\Transaction\Transactioner;
 use OsmiSOG\Subscriptions\Enums\DiscountTypeEnum;
 use OsmiSOG\Subscriptions\Models\Plan;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class SubscriptionController extends Controller
 {
+    public function index(Request $request) : \Inertia\Response {
+        $subscriptions = QueryBuilder::for(Subscription::where('subscriber_id', $request->user()->id))
+            ->defaultSort('-created_at')
+            ->allowedSorts('created_at', 'plan_id', 'trial_ends_at', 'starts_at', 'ends_at', 'grace_ends_at', 'discount_ends_at', 'canceled_at')
+            ->with(['plan.servicePlan.service', 'subscriber'])
+            ->paginate()
+            ->appends($request->query());
+
+        return Inertia::render('Buyer/Subscriptions/Index', [
+            'subscriptions' => $subscriptions
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -133,5 +152,13 @@ class SubscriptionController extends Controller
             throw $th;
         }
 
+    }
+
+    public function cancel(Subscription $subscription) : RedirectResponse {
+        abort_if($subscription->subscriber_id !== auth()->user()->id, 404);
+
+        $subscription->cancel();
+
+        return redirect()->back();
     }
 }
