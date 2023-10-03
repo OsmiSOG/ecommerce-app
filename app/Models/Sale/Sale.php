@@ -2,7 +2,9 @@
 
 namespace App\Models\Sale;
 
+use App\Models\Commerce\Cart;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,6 +25,23 @@ class Sale extends Model
     protected $casts= [
         'created_at' => 'datetime:Y-m-d H:i:s'
     ];
+
+    protected $appends = [
+        'type_salable'
+    ];
+
+    public function typeSalable(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                if ($this->salable_type == Cart::class) {
+                    return 'Shopping';
+                } else {
+                    return 'Subscription';
+                }
+            },
+        );
+    }
 
     /**
      * Get the parent picturable model (product or service).

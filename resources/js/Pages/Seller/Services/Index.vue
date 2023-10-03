@@ -29,7 +29,6 @@ const planModal = ref(false)
 const selectedService = ref(null)
 
 const handleSort = (field) => {
-    console.log(field);
     if (sort.value === field) {
         sort.value = sort.value.startsWith('-') ? field : '-'+field
     } else {

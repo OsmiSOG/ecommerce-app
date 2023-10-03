@@ -21,7 +21,6 @@ const filter = ref(null);
 const sort = ref(null);
 
 const handleSort = (field) => {
-    console.log(field);
     if (sort.value === field) {
         sort.value = sort.value.startsWith('-') ? field : '-'+field
     } else {

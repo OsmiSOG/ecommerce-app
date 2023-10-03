@@ -3,6 +3,7 @@
 use App\Http\Controllers\Buyer\ProductBoughtController;
 use App\Http\Controllers\Buyer\ProductCartController;
 use App\Http\Controllers\Buyer\ProductCheckoutController;
+use App\Http\Controllers\Buyer\SalesHistoryController;
 use App\Http\Controllers\Buyer\SubscriptionController;
 use App\Http\Controllers\Commerce\LandingController;
 use App\Http\Controllers\Commerce\ProductOverviewController;
@@ -66,8 +67,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/cancel/{subscription}', [SubscriptionController::class, 'cancel'])->name('cancel');
     });
 
-    Route::prefix('/transactions')->group(function () {
-
+    Route::prefix('/transactions')->as('transactions.')->group(function () {
+        Route::get('/', [SalesHistoryController::class, 'index'])->name('index');
     });
 
     Route::prefix('/cart')->as('cart.')->group(function () {
