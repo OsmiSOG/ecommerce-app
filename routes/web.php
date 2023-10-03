@@ -16,6 +16,7 @@ use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\Seller\ProductStockController;
 use App\Http\Controllers\Seller\ServiceController;
 use App\Http\Controllers\Seller\ServicePlanController;
+use App\Http\Controllers\Seller\ServiceSubscriptionsController;
 use App\Models\Product\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -115,8 +116,8 @@ Route::middleware('auth')->group(function () {
                 Route::delete('/{servicePlan}', [ServicePlanController::class, 'destroy'])->name('delete');
             });
 
-            Route::prefix('/subscribtions')->group(function () {
-
+            Route::prefix('/subscribtions')->as('subscriptions.')->group(function () {
+                Route::get('/subscribers/{service}', [ServiceSubscriptionsController::class, 'subscribers'])->name('subscribers');
             });
         });
     });
