@@ -89,7 +89,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/create', [ProductController::class, 'create'])->name('create');
             Route::post('/', [ProductController::class, 'store'])->name('store');
             Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('edit');
-            Route::patch('/{product}', [ProductController::class, 'update'])->name('update');
+            Route::post('/{product}', [ProductController::class, 'update'])->name('update');
 
             Route::prefix('/deals')->group(function () {
 
@@ -106,7 +106,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/create', [ServiceController::class, 'create'])->name('create');
             Route::post('/', [ServiceController::class, 'store'])->name('store');
             Route::get('/edit/{service}', [ServiceController::class, 'edit'])->name('edit');
-            Route::patch('/{service}', [ServiceController::class, 'update'])->name('update');
+            Route::post('/{service}', [ServiceController::class, 'update'])->name('update');
 
             Route::prefix('/plans')->as('plan.')->group(function () {
                 Route::get('/{service}', [ServicePlanController::class, 'get'])->name('get');

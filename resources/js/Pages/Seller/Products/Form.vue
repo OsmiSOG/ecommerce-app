@@ -50,7 +50,7 @@ const submit = () => {
         },
     }
     if (props.product) {
-        form.patch(route('sell.product.update', props.product.id), formOptions);
+        form.post(route('sell.product.update', props.product.id), formOptions);
     } else {
         form.post(route('sell.product.store'), formOptions);
     }

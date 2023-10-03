@@ -44,7 +44,7 @@ const submit = () => {
         },
     }
     if (props.service) {
-        form.patch(route('sell.service.update', props.service.id), formOptions);
+        form.post(route('sell.service.update', props.service.id), formOptions);
     } else {
         form.post(route('sell.service.store'), formOptions);
     }
