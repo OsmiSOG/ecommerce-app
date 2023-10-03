@@ -4,6 +4,7 @@ import Modal from "@/Components/Modal.vue";
 import StockForm from "./Partials/StockForm.vue";
 import { Link, Head, router } from "@inertiajs/vue3";
 import { onMounted, ref } from "vue";
+import NumberFormat from "@/Helpers/NumberFormat";
 
 const props = defineProps({
     products: Object
@@ -18,6 +19,7 @@ const tableFields = [
     { label: 'Subcategoria', field: 'subcategory_id', sort: true},
     { label: 'Price', field: 'price', sort: true},
     { label: 'In Stock', field: 'in_stock', sort: true},
+    { label: 'Total Sold', field: 'stock_sold_count', sort: true},
     { label: 'Created At', field: 'created_at', sort: true},
 ]
 
@@ -117,10 +119,13 @@ const searchQuery = () => {
                                 ${{ product.price }}
                             </td>
                             <td class="px-6 py-4">
-                                <a href="#" @click.prevent="handleStock(product)" class="mr-3">
+                                <a href="#" class="mr-3">
                                     {{ product.stock_available_count ?? 'No'}}
                                 </a>
                                 <a href="#" @click.prevent="handleFormStock(product)" class="text-lime-600"><i class="fa-solid fa-circle-plus"></i></a>
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ product.stock_sold_count}} - {{ NumberFormat(product.stock_sold_sum_sold_price) }}
                             </td>
                             <td class="px-6 py-4">
                                 {{ product.created_at}}

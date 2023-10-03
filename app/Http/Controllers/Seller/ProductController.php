@@ -20,7 +20,8 @@ class ProductController extends Controller
 {
     public function index(Request $request) : \Inertia\Response
     {
-        $products = QueryBuilder::for(Product::where('user_id', $request->user()->id))
+        $products = Product::where('user_id', $request->user()->id)->withCount('stockSold')->withSum('stockSold', 'sold_price');
+        $productsQuery = QueryBuilder::for($products)
             ->allowedFilters(AllowedFilter::custom('search', new FilterMultipleFields, 'name,brand,model,type,reference'))
             ->defaultSort('-created_at')
             ->allowedSorts('created_at', 'name', 'brand', 'model', 'type', 'price', 'limit', 'active', 'in_stock', 'category_id', 'subcategory_id')
@@ -31,7 +32,7 @@ class ProductController extends Controller
 
         // return dd($products);
         return Inertia::render('Seller/Products/Index', [
-            'products' => $products
+            'products' => $productsQuery
         ]);
     }
 
