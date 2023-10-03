@@ -34,6 +34,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'cart' => $request->user()->currentCart->loadCount('products'),
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),

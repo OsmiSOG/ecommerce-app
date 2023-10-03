@@ -38,8 +38,17 @@ const navigation = [
                     </Link>
                 </div>
                 <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <Link :href="route('welcome')" class="text-sm font-semibold leading-6 text-gray-900" v-if="$page.props.auth.user">My Space <span aria-hidden="true">&rarr;</span></Link>
-                    <Link :href="route('login')" class="text-sm font-semibold leading-6 text-gray-900" v-else>Log in <span aria-hidden="true">&rarr;</span></Link>
+                    <div v-if="$page.props.auth.user">
+                        <div class="relative inline-flex items-center p-3 mr-12 text-sm font-medium text-center text-white">
+                            <Link :href="route('cart.index')" class="text-sm font-semibold leading-6 text-gray-900 w-5 h-5" :class="route().current('cart.index') ? 'underline underline-offset-8' : ''"><i class="fa-solid fa-cart-shopping fa-xl"></i></Link>
+                            <span class="sr-only">Cart</span>
+                            <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2">{{ $page.props.auth.cart.products_count }}</div>
+                        </div>
+                        <Link :href="route('welcome')" class="text-sm font-semibold leading-6 text-gray-900">My Space <span aria-hidden="true">&rarr;</span></Link>
+                    </div>
+                    <div v-else>
+                        <Link :href="route('login')" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></Link>
+                    </div>
                 </div>
             </nav>
             <Dialog as="div" class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
@@ -63,6 +72,7 @@ const navigation = [
                                 <Link v-for="item in navigation" :key="item.name" :href="item.href" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" :class="item.current ? 'underline underline-offset-8' : ''">{{ item.name }}</Link>
                             </div>
                             <div v-if="$page.props.auth.user">
+                                <span><i class="fa-solid fa-cart-shopping w-2 h-2"></i></span>
                                 <Link :href="route('welcome')" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">My Space</Link>
                             </div>
                             <div class="py-6" v-else>

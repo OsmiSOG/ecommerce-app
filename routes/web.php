@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Buyer\ProductCartController;
 use App\Http\Controllers\Buyer\SubscriptionController;
 use App\Http\Controllers\Commerce\LandingController;
 use App\Http\Controllers\Commerce\ProductOverviewController;
@@ -64,8 +65,9 @@ Route::middleware('auth')->group(function () {
 
     });
 
-    Route::prefix('/cart')->group(function () {
-
+    Route::prefix('/cart')->as('cart.')->group(function () {
+        Route::get('/', [ProductCartController::class, 'index'])->name('index');
+        Route::post('/add/{product}', [ProductCartController::class, 'add'])->name('add');
     });
 
     Route::prefix('sell')->as('sell.')->middleware('verified', 'enable-seller')->group(function () {
