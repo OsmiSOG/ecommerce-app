@@ -23,7 +23,7 @@ onMounted(() => {
             <div class="pt-6">
 
                 <!-- Image gallery -->
-                <div class="mx-auto mt-6 sm:px-6 lg:max-w-7xl lg:gap-x-8 lg:px-8">
+                <div class="mx-auto mt-6 sm:px-6 lg:max-w-7xl lg:gap-x-8 lg:px-8" v-if="product.pictures.length > 0">
 
                     <div id="default-carousel" class="relative w-full" data-carousel="slide">
                         <!-- Carousel wrapper -->

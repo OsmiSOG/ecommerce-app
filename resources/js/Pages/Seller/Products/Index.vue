@@ -132,6 +132,7 @@ const searchQuery = () => {
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                <Link :href="route('products.overview', product.id)" :preserve-state="false" :replace="false" class="font-medium text-gray-800 dark:text-gray-200 ml-2 hover:underline">Show</Link>
                             </td>
                         </tr>
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-if="products.data.length === 0">

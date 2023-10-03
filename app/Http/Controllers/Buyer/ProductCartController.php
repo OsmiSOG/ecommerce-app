@@ -25,7 +25,7 @@ class ProductCartController extends Controller
     {
         $product->loadCount('stockAvailable');
         if (!$product->active || !$product->stock_available_count) {
-            abort(402, 'Product not available or without stock');
+            abort(401, 'Product not available or without stock');
         }
 
         $request->validate([
