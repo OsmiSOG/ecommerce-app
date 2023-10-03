@@ -5,6 +5,7 @@ namespace App\Models\Commerce;
 use App\Models\Product\Product;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -25,6 +26,18 @@ class Cart extends Model
         'sold_at' => 'datetime:Y-m-d H:i:s',
         'expired_at' => 'datetime:Y-m-d H:i:s',
     ];
+
+
+    public function total(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                return $this->products->reduce(function (?int $carry, $item) {
+                    return ($item->pivot->product_qty * $item->price) + $carry;
+                }, 0);
+            },
+        );
+    }
 
     public function scopeCurrent($query, User $user) {
         $query->where('expired_at', '>', Carbon::now())

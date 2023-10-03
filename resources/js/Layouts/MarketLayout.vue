@@ -42,7 +42,7 @@ const navigation = [
                         <div class="relative inline-flex items-center p-3 mr-12 text-sm font-medium text-center text-white">
                             <Link :href="route('cart.index')" class="text-sm font-semibold leading-6 text-gray-900 w-5 h-5" :class="route().current('cart.index') ? 'underline underline-offset-8' : ''"><i class="fa-solid fa-cart-shopping fa-xl"></i></Link>
                             <span class="sr-only">Cart</span>
-                            <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2">{{ $page.props.auth.cart.products_count }}</div>
+                            <div v-if="$page.props.auth.cart.products_count" class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2">{{ $page.props.auth.cart.products_count }}</div>
                         </div>
                         <Link :href="route('welcome')" class="text-sm font-semibold leading-6 text-gray-900">My Space <span aria-hidden="true">&rarr;</span></Link>
                     </div>

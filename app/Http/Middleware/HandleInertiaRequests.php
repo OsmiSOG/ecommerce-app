@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Commerce\Cart;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -34,7 +35,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
-                'cart' => $request->user()->currentCart->loadCount('products'),
+                'cart' => fn () => $request->user() ? Cart::withCount('products')->current($request->user())->first() : null,
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),

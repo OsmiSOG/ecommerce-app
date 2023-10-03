@@ -68,6 +68,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/cart')->as('cart.')->group(function () {
         Route::get('/', [ProductCartController::class, 'index'])->name('index');
         Route::post('/add/{product}', [ProductCartController::class, 'add'])->name('add');
+        Route::put('/substract/{product}', [ProductCartController::class, 'substract'])->name('substract');
+        Route::delete('/remove/{product}', [ProductCartController::class, 'remove'])->name('remove');
     });
 
     Route::prefix('sell')->as('sell.')->middleware('verified', 'enable-seller')->group(function () {
