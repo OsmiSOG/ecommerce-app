@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Buyer\ProductBoughtController;
 use App\Http\Controllers\Buyer\ProductCartController;
 use App\Http\Controllers\Buyer\ProductCheckoutController;
 use App\Http\Controllers\Buyer\SubscriptionController;
@@ -55,8 +56,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::prefix('/shopping-history')->group(function () {
-
+    Route::prefix('/shopping-history')->as('shopping-history.')->group(function () {
+        Route::get('/', [ProductBoughtController::class, 'index'])->name('index');
     });
 
     Route::prefix('/subscriptions')->as('subscription.')->group(function () {

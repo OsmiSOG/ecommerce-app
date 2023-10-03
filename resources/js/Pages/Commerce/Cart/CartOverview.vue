@@ -55,7 +55,7 @@ onMounted(() => {
                                     <img :src="product.front_picture.url" :alt="product.name">
                                 </td>
                                 <td class="px-6 py-4 font-semibold text-gray-900">
-                                    Apple Watch
+                                    {{ product.name }}
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center space-x-3">

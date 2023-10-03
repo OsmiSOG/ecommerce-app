@@ -20,6 +20,10 @@ class Sale extends Model
         'total'
     ];
 
+    protected $casts= [
+        'created_at' => 'datetime:Y-m-d H:i:s'
+    ];
+
     /**
      * Get the parent picturable model (product or service).
      */
