@@ -1,23 +1,29 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Head, useForm } from "@inertiajs/vue3";
-import { ref, watch } from 'vue';
+import Swal from "sweetalert2";
+import { onMounted, ref, watch } from 'vue';
 
 const props = defineProps({
-    categories: Array
+    categories: Array,
+    service: Object
 })
 
 const subcategories = ref([])
 const categoryId = ref(null)
 
 const form = useForm({
-    category_id: null,
-    subcategory_id: null,
-    name: null,
-    description: null,
-    limit: null,
+    category_id: props.service ? props.service.category_id : null,
+    subcategory_id: props.service ? props.service.subcategory_id : null,
+    name: props.service ? props.service.name : null,
+    description: props.service ? props.service.description : null,
+    limit: props.service ? props.service.limit : null,
     pictures: []
 });
+
+onMounted(() => {
+    categoryId.value =  props.service ? props.service.category_id : null
+})
 
 watch(categoryId, (data, prev) => {
     form.category_id = data
@@ -30,10 +36,18 @@ watch(categoryId, (data, prev) => {
 })
 
 const submit = () => {
-    form.post(route('sell.service.store'), {
+    const formOptions = {
         onError: () => {},
-        onSuccess: () => form.reset(),
-    });
+        onSuccess: () => {
+            form.reset()
+            Swal.fire('Saved', 'Successfuly saved', 'success');
+        },
+    }
+    if (props.service) {
+        form.patch(route('sell.service.update', props.service.id), formOptions);
+    } else {
+        form.post(route('sell.service.store'), formOptions);
+    }
 };
 
 const handlePictures = (event) => {

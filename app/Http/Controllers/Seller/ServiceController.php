@@ -85,14 +85,22 @@ class ServiceController extends Controller
         $request->validate([
             'category_id' => ['required', Rule::exists('categories', 'id')->where('type', CategoryType::Service->name)],
             'subcategory_id' => ['required', Rule::exists('subcategories', 'id')->where('category_id', $request->get('category_id'))],
-            'name' => ['request', 'string', 'max:190'],
-            'description' => ['request', 'string', '500'],
+            'name' => ['required', 'string', 'max:190'],
+            'description' => ['required', 'string', 'max:500'],
             'limit' => ['nullable', 'integer'],
+            'pictures' => ['nullable', 'array'],
+            'pictures.*' => ['required', 'image'],
         ]);
 
         $service->category()->associate($request->category_id);
         $service->subcategory()->associate($request->subcategory_id);
         $service->update($request->all());
+
+        foreach ($request->pictures as $picture) {
+            $name = $picture->hashName();
+            $path = $picture->storeAs("services/$service->user_id/$service->id", $name, 'public');
+            $service->pictures()->save(new Picture(['path' => $path]));
+        }
 
         return redirect()->route('sell.service.index');
     }

@@ -89,7 +89,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/create', [ProductController::class, 'create'])->name('create');
             Route::post('/', [ProductController::class, 'store'])->name('store');
             Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('edit');
-            Route::patch('/{update}', [ProductController::class, 'update'])->name('update');
+            Route::patch('/{product}', [ProductController::class, 'update'])->name('update');
 
             Route::prefix('/deals')->group(function () {
 

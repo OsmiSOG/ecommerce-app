@@ -1,29 +1,35 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Head, useForm } from "@inertiajs/vue3";
-import { ref, watch } from 'vue';
+import Swal from "sweetalert2";
+import { onMounted, ref, watch } from 'vue';
 
 const props = defineProps({
-    categories: Array
+    categories: Array,
+    product: Object
 })
 
 const subcategories = ref([])
 const categoryId = ref(null)
 
 const form = useForm({
-    category_id: null,
-    subcategory_id: null,
-    name: null,
-    brand: null,
-    model: null,
-    type: null,
-    reference: null,
-    price: 0,
-    description: null,
-    summary: null,
-    limit: null,
+    category_id: props.product ? props.product.category_id : null,
+    subcategory_id: props.product ? props.product.subcategory_id : null,
+    name: props.product ? props.product.name : null,
+    brand: props.product ? props.product.brand : null,
+    model: props.product ? props.product.model : null,
+    type: props.product ? props.product.type : null,
+    reference: props.product ? props.product.reference : null,
+    price: props.product ? props.product.price : 0,
+    description: props.product ? props.product.description : null,
+    summary: props.product ? props.product.summary : null,
+    limit: props.product ? props.product.limit : null,
     pictures: []
 });
+
+onMounted(() => {
+    categoryId.value =  props.product ? props.product.category_id : null
+})
 
 watch(categoryId, (data, prev) => {
     form.category_id = data
@@ -36,10 +42,18 @@ watch(categoryId, (data, prev) => {
 })
 
 const submit = () => {
-    form.post(route('sell.product.store'), {
+    const formOptions = {
         onError: () => {},
-        onSuccess: () => form.reset(),
-    });
+        onSuccess: () => {
+            form.reset()
+            Swal.fire('Saved', 'Successfuly saved', 'success');
+        },
+    }
+    if (props.product) {
+        form.patch(route('sell.product.update', props.product.id), formOptions);
+    } else {
+        form.post(route('sell.product.store'), formOptions);
+    }
 };
 
 const handlePictures = (event) => {

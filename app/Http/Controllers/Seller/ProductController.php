@@ -92,6 +92,7 @@ class ProductController extends Controller
     public function edit(Product $product) : \Inertia\Response
     {
         return Inertia::render('Seller/Products/Form', [
+            'categories' => Category::where('type', CategoryType::Product->name)->with('subcategories')->get(),
             'product' => $product
         ]);
     }
@@ -109,17 +110,21 @@ class ProductController extends Controller
             'price' => ['required', 'numeric', 'gt:1'],
             'description' => ['required', 'string', 'min:1'],
             'summary' => ['required', 'string', 'min:1', 'max:100'],
+            'pictures' => ['nullable', 'array'],
+            'pictures.*' => ['required', 'image'],
         ]);
 
         DB::beginTransaction();
         try {
-            $product = new Product($request->all());
-            $product->active = true;
-            $product->in_stock = false;
             $product->category()->associate($request->category_id);
             $product->subcategory()->associate($request->subcategory_id);
-            $product->user()->associate(auth()->user());
-            $product->save();
+            $product->update($request->all());
+
+            foreach ($request->pictures as $picture) {
+                $name = $picture->hashName();
+                $path = $picture->storeAs("products/$product->user_id/$product->id", $name, 'public');
+                $product->pictures()->save(new Picture(['path' => $path]));
+            }
 
             DB::commit();
             return redirect()->route('sell.product.index');
