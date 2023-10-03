@@ -17,7 +17,7 @@ class ProductCartController extends Controller
         $cart = Cart::with('products.frontPicture')->current(auth()->user())->first();
 
         return Inertia::render('Commerce/Cart/CartOverview', [
-            'cart' => $cart->append('total')
+            'cart' => $cart ? $cart->append('total') : null
         ]);
     }
 

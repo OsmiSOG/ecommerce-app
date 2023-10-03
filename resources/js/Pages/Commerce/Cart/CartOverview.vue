@@ -1,15 +1,17 @@
 <script setup>
 import NumberFormat from "@/Helpers/NumberFormat";
 import MarketLayout from "@/Layouts/MarketLayout.vue";
+import Modal from "@/Components/Modal.vue";
+import CheckoutForm from "./CheckoutForm.vue";
 import { Head, Link } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { initFlowbite } from 'flowbite'
 
 defineProps({
     cart: Object,
 })
 
-
+const showModal = ref(false);
 
 onMounted(() => {
     initFlowbite();
@@ -26,7 +28,7 @@ onMounted(() => {
 
                 <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-2xl text-center pb-16">Shopping Cart</h1>
 
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg" v-if="cart">
                     <table class="w-full text-sm text-left text-gray-500">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                             <tr>
@@ -64,7 +66,7 @@ onMounted(() => {
                                             </svg>
                                         </Link>
                                         <div>
-                                            <input disabled v-model="product.pivot.product_qty" type="number" id="first_product" class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1" placeholder="1" required>
+                                            <input disabled v-model="product.pivot.product_qty" type="number" :id="product.name" class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1" placeholder="1" required>
                                         </div>
                                         <Link :href="route('cart.add', product.id)" as="button" method="post" preserve-scroll class="inline-flex items-center justify-center h-6 w-6 p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200" type="button">
                                             <span class="sr-only">Quantity button</span>
@@ -84,28 +86,44 @@ onMounted(() => {
                         </tbody>
                     </table>
                 </div>
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg text-center p-16 font-semibold text-xl" v-else>
+                    There is Nothing Yet
+                </div>
 
-                <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
+                <div class="border-t border-gray-200 px-4 py-6 sm:px-6" v-if="cart">
                     <div class="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
                         <p>{{ NumberFormat(cart.total) }}</p>
                     </div>
                     <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                     <div class="mt-6">
-                        <a href="#" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Checkout</a>
+                        <a href="#" @click.prevent="showModal = true" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Checkout</a>
                     </div>
                     <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>
                         or
-                        <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        <Link :href="route('products')" class="font-medium text-indigo-600 hover:text-indigo-500">
                             Continue Shopping
                             <span aria-hidden="true"> &rarr;</span>
-                        </button>
+                        </Link>
                         </p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-200 px-4 py-6 sm:px-6" v-else>
+                    <div class="mt-6">
+                        <Link :href="route('products')" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
+                            Go Shopping
+                        </Link>
                     </div>
                 </div>
             </div>
         </div>
+        <Modal :show="showModal" @close="showModal = false">
+            <CheckoutForm
+                :cart="cart"
+                @submited="showModal = false"
+            ></CheckoutForm>
+        </Modal>
     </MarketLayout>
 
 </template>

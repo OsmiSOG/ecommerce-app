@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Buyer\ProductCartController;
+use App\Http\Controllers\Buyer\ProductCheckoutController;
 use App\Http\Controllers\Buyer\SubscriptionController;
 use App\Http\Controllers\Commerce\LandingController;
 use App\Http\Controllers\Commerce\ProductOverviewController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\Seller\ProductStockController;
 use App\Http\Controllers\Seller\ServiceController;
 use App\Http\Controllers\Seller\ServicePlanController;
+use App\Models\Product\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -70,6 +72,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/add/{product}', [ProductCartController::class, 'add'])->name('add');
         Route::put('/substract/{product}', [ProductCartController::class, 'substract'])->name('substract');
         Route::delete('/remove/{product}', [ProductCartController::class, 'remove'])->name('remove');
+        Route::post('/checkout', ProductCheckoutController::class)->name('checkout');
     });
 
     Route::prefix('sell')->as('sell.')->middleware('verified', 'enable-seller')->group(function () {
