@@ -80,7 +80,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/checkout', ProductCheckoutController::class)->name('checkout');
     });
 
-    Route::prefix('sell')->as('sell.')->middleware('verified', 'enable-seller')->group(function () {
+    Route::prefix('sell')->as('sell.')->middleware('enable-seller')->group(function () {
         Route::prefix('/dashboard')->as('dashboard.')->group(function () {
             Route::get('/', [DashboardController::class, 'index'])->name('index');
         });
