@@ -24,13 +24,12 @@ class ProductController extends Controller
         $productsQuery = QueryBuilder::for($products)
             ->allowedFilters(AllowedFilter::custom('search', new FilterMultipleFields, 'name,brand,model,type,reference'))
             ->defaultSort('-created_at')
-            ->allowedSorts('created_at', 'name', 'brand', 'model', 'type', 'price', 'limit', 'active', 'in_stock', 'category_id', 'subcategory_id')
+            ->allowedSorts('created_at', 'name', 'brand', 'model', 'type', 'price', 'limit', 'active', 'in_stock', 'category_id', 'subcategory_id', 'stock_sold_count')
             ->with(['category', 'subcategory'])
             ->withCount('stockAvailable')
             ->paginate()
             ->appends($request->query());
 
-        // return dd($products);
         return Inertia::render('Seller/Products/Index', [
             'products' => $productsQuery
         ]);
