@@ -21,45 +21,44 @@ services:
         volumes:
             - '.:/var/www/html'
         networks:
-            - sail
-            - local_net
+            - ecommerce-app-network
         depends_on:
+            - mysql
             - redis
-            - meilisearch
-            - mailpit
-    # mysql.ecommerce:
-    #     image: 'mysql/mysql-server:8.0'
-    #     ports:
-    #         - '${FORWARD_DB_PORT:-3306}:3306'
-    #     environment:
-    #         MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-    #         MYSQL_ROOT_HOST: '%'
-    #         MYSQL_DATABASE: '${DB_DATABASE}'
-    #         MYSQL_USER: '${DB_USERNAME}'
-    #         MYSQL_PASSWORD: '${DB_PASSWORD}'
-    #         MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    #     volumes:
-    #         - 'sail-mysql:/var/lib/mysql'
-    #         - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
-    #     networks:
-    #         - sail
-    #         - local_net
-    #     healthcheck:
-    #         test:
-    #             - CMD
-    #             - mysqladmin
-    #             - ping
-    #             - '-p${DB_PASSWORD}'
-    #         retries: 3
-    #         timeout: 5s
+    mysql:
+        container_name: 'db-ecommerce-app'
+        image: 'mysql/mysql-server:8.0'
+        ports:
+            - '${FORWARD_DB_PORT:-3306}:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ROOT_HOST: '%'
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        volumes:
+            - 'ecommerce-app-mysql:/var/lib/mysql'
+            - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
+        networks:
+            - ecommerce-app-network
+        healthcheck:
+            test:
+                - CMD
+                - mysqladmin
+                - ping
+                - '-p${DB_PASSWORD}'
+            retries: 3
+            timeout: 5s
     redis:
+        container_name: 'redis-ecommerce-app'
         image: 'redis:alpine'
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
         volumes:
-            - 'sail-redis:/data'
+            - 'ecommerce-app-redis:/data'
         networks:
-            - sail
+            - ecommerce-app-network
         healthcheck:
             test:
                 - CMD
@@ -67,42 +66,23 @@ services:
                 - ping
             retries: 3
             timeout: 5s
-    meilisearch:
-        image: 'getmeili/meilisearch:latest'
+    nginx:
+        container_name: 'nginx-ecommerce-app'
+        restart: always
+        image: 'nginx:1.25.2-alpine'
         ports:
-            - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
-        environment:
-            MEILI_NO_ANALYTICS: '${MEILISEARCH_NO_ANALYTICS:-false}'
+            - 80:80
         volumes:
-            - 'sail-meilisearch:/meili_data'
+            - ./nginx:/etc/nginx/conf.d
+        depends_on:
+            - ecommerce.app
         networks:
-            - sail
-        healthcheck:
-            test:
-                - CMD
-                - wget
-                - '--no-verbose'
-                - '--spider'
-                - 'http://localhost:7700/health'
-            retries: 3
-            timeout: 5s
-    mailpit:
-        image: 'axllent/mailpit:latest'
-        ports:
-            - '${FORWARD_MAILPIT_PORT:-1025}:1025'
-            - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
-        networks:
-            - sail
+            - ecommerce-app-network
 networks:
-    sail:
-        driver: bridge
-    local_net:
-        name: local_net
+    ecommerce-app-network:
         driver: bridge
 volumes:
-    # sail-mysql:
-    #     driver: local
-    sail-redis:
+    ecommerce-app-mysql:
         driver: local
-    sail-meilisearch:
+    ecommerce-app-redis:
         driver: local

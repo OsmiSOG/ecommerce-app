@@ -10,6 +10,9 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        {{-- icons --}}
+        <link rel="icon" type="image/png" href="/images/favicon.png">
+
         <!-- Scripts -->
         <script>
             // On page load or when changing themes, best to add inline in `head` to avoid FOUC
