@@ -65,6 +65,8 @@ const searchQuery = () => {
                 <div class="flex justify-between">
                     <div>
                         <Link :href="route('sell.product.create')" type="button" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Sell Product</Link>
+                        <Link :href="route('sell.product.stock.index', [1])" type="button" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">All availables</Link>
+                        <Link :href="route('sell.product.stock.index', [0])" type="button" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">All Sold</Link>
                     </div>
                     <div class="pb-4 bg-white dark:bg-gray-900">
                         <label for="table-search" class="sr-only">Search</label>
@@ -92,6 +94,7 @@ const searchQuery = () => {
                             <th scope="col" class="px-6 py-3">
                                 <span class="sr-only">Edit</span>
                                 <span class="sr-only">Stock</span>
+                                <span class="sr-only">Show</span>
                             </th>
                         </tr>
                     </thead>
@@ -120,7 +123,8 @@ const searchQuery = () => {
                             </td>
                             <td class="px-6 py-4">
                                 <a href="#" class="mr-3">
-                                    {{ product.stock_available_count ?? 'No'}}
+                                    <Link :href="route('sell.product.stock.index', [1, product.id])" v-if="product.stock_available_count" class="font-medium text-cyan-600 dark:text-cyan-500 hover:underline">{{ product.stock_available_count }}</Link>
+                                    <span v-else>No</span>
                                 </a>
                                 <a href="#" @click.prevent="handleFormStock(product)" class="text-lime-600"><i class="fa-solid fa-circle-plus"></i></a>
                             </td>
@@ -132,6 +136,7 @@ const searchQuery = () => {
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <Link :href="route('sell.product.edit', product.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
+                                <Link :href="route('sell.product.stock.index', [0, product.id])" class="font-medium text-cyan-600 dark:text-cyan-500 hover:underline ml-2">Sold</Link>
                                 <Link :href="route('products.overview', product.id)" :preserve-state="false" :replace="false" class="font-medium text-gray-800 dark:text-gray-200 ml-2 hover:underline">Show</Link>
                             </td>
                         </tr>

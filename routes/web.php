@@ -96,7 +96,7 @@ Route::middleware('auth')->group(function () {
             });
 
             Route::prefix('/stock')->as('stock.')->group(function () {
-                Route::get('/{product}/{available}', [ProductStockController::class, 'get'])->name('get');
+                Route::get('/{available?}/{product?}', [ProductStockController::class, 'index'])->name('index');
                 Route::post('/{product}', [ProductStockController::class, 'store'])->name('store');
                 Route::delete('/{productStock}', [ProductStockController::class, 'destroy'])->name('delete');
             });

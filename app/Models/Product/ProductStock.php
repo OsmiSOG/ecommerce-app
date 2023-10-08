@@ -20,6 +20,10 @@ class ProductStock extends Model
         'sold_at',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s'
+    ];
+
     /**
      * Get the product that owns the ProductStock
      *
