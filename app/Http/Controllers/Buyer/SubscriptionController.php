@@ -64,7 +64,7 @@ class SubscriptionController extends Controller
         })->first()->servicePlans->pluck('plan_id');
         $subscription = $request->user()->subscriptions()->whereHas('plan', function ($query) use ($planIds) {
             $query->whereIn('plan_id', $planIds);
-        });
+        })->first();
         if ($subscription) {
             abort(403, "You already have a subscription with this service or plan");
         }

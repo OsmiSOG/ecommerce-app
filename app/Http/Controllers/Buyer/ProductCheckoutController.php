@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Buyer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Commerce\Cart;
+use App\Models\Product\DeliveryInformation;
 use App\Models\Sale\Sale;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -33,6 +34,10 @@ class ProductCheckoutController extends Controller
             'identification_type' => ['required', 'string'],
             'identification_number' => ['required', 'numeric'],
             'number_phone' => ['required', 'numeric'],
+            'country' => ['required', 'string'],
+            'city' => ['required', 'string'],
+            'address' => ['required', 'string'],
+            'details' => ['required', 'string'],
         ]);
 
         DB::beginTransaction();
@@ -48,6 +53,11 @@ class ProductCheckoutController extends Controller
             $sale->salable()->associate($cart);
             $sale->buyer()->associate($request->user());
             $sale->save();
+
+            DeliveryInformation::create(array_merge($request->all(), [
+                'name' => $request->card_holder,
+                'sale_id' => $sale->id,
+            ]));
 
             foreach ($products as $product) {
                 $productsStock = $product->stockAvailable()->limit($product->pivot->product_qty)->get();
@@ -69,7 +79,7 @@ class ProductCheckoutController extends Controller
                     $request->identification_type,
                     $request->identification_number,
                     $request->number_phone,
-                    'COL', 'City', 'Address'
+                    $request->country, $request->city, $request->address
                 ));
             }
 

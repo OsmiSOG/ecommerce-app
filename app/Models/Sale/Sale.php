@@ -3,11 +3,13 @@
 namespace App\Models\Sale;
 
 use App\Models\Commerce\Cart;
+use App\Models\Product\DeliveryInformation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -77,5 +79,15 @@ class Sale extends Model
     public function transaction(): MorphOne
     {
         return $this->morphOne(HistoryTransaction::class, 'paymentable');
+    }
+
+    /**
+     * Get the deliveryInformation associated with the Sale
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function deliveryInformation(): HasOne
+    {
+        return $this->hasOne(DeliveryInformation::class, 'sale_id');
     }
 }

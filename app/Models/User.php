@@ -7,7 +7,6 @@ namespace App\Models;
 use App\Models\Commerce\Cart;
 use App\Models\Information\CommerceInformation;
 use Carbon\Carbon;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
