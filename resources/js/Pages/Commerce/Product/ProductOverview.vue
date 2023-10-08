@@ -4,6 +4,7 @@ import MarketLayout from "@/Layouts/MarketLayout.vue";
 import { Head, Link } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 import { initFlowbite } from 'flowbite'
+import Swal from "sweetalert2";
 
 defineProps({
     product: Object,
@@ -71,7 +72,7 @@ onMounted(() => {
                         <p class="text-3xl tracking-tight text-gray-900">{{NumberFormat(product.price)}}</p>
 
                         <form class="mt-10">
-                            <Link :href="route('cart.add', product.id)" method="post" as="button" preserve-scroll class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            <Link :href="route('cart.add', product.id)" method="post" as="button" :on-success="Swal.fire('Added', 'added to bag', 'success')" preserve-scroll class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                 Add to bag
                             </Link>
                         </form>
