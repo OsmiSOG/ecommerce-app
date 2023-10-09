@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use OsmiSOG\Payments\Checkout\PurcharsePayment;
 use OsmiSOG\Payments\Client\ClientManager;
@@ -88,7 +89,7 @@ class ProductCheckoutController extends Controller
             $history = $resourceTransaction->addHistory($sale);
             $resourceTransaction = PurcharsePayment::init()->pay($history->trazability_id, new Card(
                 $request->card_holder,
-                $request->card_number,
+                Str::remove(' ',$request->card_number),
                 Carbon::createFromFormat('m-y', $request->card_datetime)->year,
                 Carbon::createFromFormat('m-y', $request->card_datetime)->month,
                 $request->card_cvv,

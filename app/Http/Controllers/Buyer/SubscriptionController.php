@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Buyer;
 
 use App\Http\Controllers\Controller;
-use App\Invokables\FilterMultipleFields;
 use App\Models\Information\SubscriberInformation;
 use App\Models\Sale\Sale;
 use App\Models\Service\Service;
@@ -13,6 +12,7 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use OsmiSOG\Payments\Checkout\PurcharsePayment;
@@ -81,7 +81,7 @@ class SubscriptionController extends Controller
 
             $tokenized = Tokenizer::init()->generate(new Card(
                 $request->card_holder,
-                $request->card_number,
+                Str::remove(' ',$request->card_number),
                 Carbon::parse($request->date)->year,
                 Carbon::parse($request->date)->month,
                 $request->card_cvv,
